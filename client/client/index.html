@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>chatterbox</title>
+    <link rel="stylesheet" href="styles/styles.css">
+
+    <!-- dependencies -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/underscore/underscore.js"></script>
+    <!-- your scripts -->
+    <script src="env/config.js"></script>
+    <script src="scripts/app.js"></script>
+  </head>
+  <body>
+    <div id="main">
+    <form id = "login" action="action_page.php">
+      What is your username?:<br>
+      <input id="username" type="text" action="">
+      <br>
+      <input id="firstlogin" type="button" value="Submit">
+    </form>
+    <h1>chatterbox</h1>
+        <form id = "roomform">
+      Create room:<br>
+      <input id="newroom" type="text">
+      <br>
+      <input id="submitroom" type="button" value="Submit">
+    </form>
+    <form id = "send" action="">
+      Enter Chat:<br>
+      <input id="message" type="text" placeholder ="enter chat here">
+      <br>
+      <input class="submit" type="button" value="Submit">
+    </form>
+
+      <!-- Your HTML goes here! -->
+    </div>
+    <div id="chats"></div>
+  </body>
+</html>
