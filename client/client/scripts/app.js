@@ -6,7 +6,7 @@ window.friends = {};
 
 var app = {};
 
-app.server = 'http://127.0.0.1:3000/classes/messages';
+app.server = 'http://127.0.0.1:3000/';
 
 app.init = function() {
 
