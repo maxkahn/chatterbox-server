@@ -13,7 +13,7 @@ this file and include it in basic-server.js so that it actually works.
 **************************************************************/
 var chats = [];
 
-var directory = {"/classes": true, 'http://127.0.0.1:3000/classes': true};
+var directory = {'http://127.0.0.1:3000/': true, "/": true, "/classes": true, 'http://127.0.0.1:3000/classes': true};
 
 var requestHandler = function(request, response) {
   // Request and Response come from node's http module.
@@ -39,21 +39,22 @@ var requestHandler = function(request, response) {
   //   response.end("Page not found");
   // 
 
-  console.log(request.url);
+  //console.log(request.url);
+  console.log("dir", __dirname + request.url);
 
   var statusCode;
+   var headers = defaultCorsHeaders;
+  if (request.method === 'OPTIONS') {
+    //do stuff
+    statusCode = 200;
+  }
+  else if (directory[request.url] === undefined) {
+    response.writeHead(404, headers);
+    response.end("Page not found");
+    return;
+  }
 
-  // if (directory[request.url] === undefined) {
-  //   response.statusCode = 404;
-  //   response.end("Page not found");
-  //   return;
-  // }
-  console.log("Serving request type " + request.method + " for url " + request.url);
-
-
-
-  // The outgoing status.
-  if (request.method === 'GET') {
+  else if (request.method === 'GET') {
     statusCode = 200;
 
   }
@@ -63,19 +64,19 @@ var requestHandler = function(request, response) {
 
     request.on('data', function(chunk) {
       //console.log('body: ' + chunk);
-      chats.push(JSON.parse(chunk));
+      chats.unshift(JSON.parse(chunk));
       directory[request.url] = true;
-
-    //console.log(request.body);
 
     });
   }
+  console.log("Serving request type " + request.method + " for url " + request.url);
 
-  else if (request.method === 'OPTIONS') {
-    //do stuff
-    statusCode = 200;
 
-  }
+
+  // The outgoing status.
+
+
+
 
   // request.on('finish', function(message) {
   //   console.log(message.statusCode);
@@ -98,7 +99,7 @@ var requestHandler = function(request, response) {
   //   headers['Content-Type'] = ["text/plain", "application/json"];
   // }
 
-  var headers = defaultCorsHeaders;
+ 
 
 
   headers['Content-Type'] = 'application/json';
