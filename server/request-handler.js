@@ -11,7 +11,7 @@ this file and include it in basic-server.js so that it actually works.
 *Hint* Check out the node module documentation at http://nodejs.org/api/modules.html.
 
 **************************************************************/
-
+var chats = [];
 
 var requestHandler = function(request, response) {
   // Request and Response come from node's http module.
@@ -28,25 +28,54 @@ var requestHandler = function(request, response) {
   // Adding more logging to your server can be an easy way to get passive
   // debugging help, but you should always be careful about leaving stray
   // console.logs in your code.
+
+    //check whether uri exists
+  //   //if not, set statusCode to 404 and end.
+  //   if (request.url.substring(0, 8) !== "/classes" || 
+  //     (request.uri !== undefined && request.uri.substring(0, 30) !== "http://127.0.0.1:3000/classes/")) {
+  //     statusCode = 404;
+  //   response.end("Page not found");
+  // 
+
+  console.log(request.url);
+
+  var statusCode;
+
+  if (request.url === "/arglebargle" || request.url === 'http://127.0.0.1:3000/arglebargle') {
+    response.statusCode = 404;
+    response.end("Page not found");
+    return;
+  }
   console.log("Serving request type " + request.method + " for url " + request.url);
 
-  var chats = [];
-  var statusCode;
   // The outgoing status.
   if (request.method === 'GET') {
     statusCode = 200;
+
   }
-  else if (request.method === 'POST') {
+  else if(request.method === 'POST') {
     statusCode = 201;
     //results.push(request.data);
 
     request.on('data', function(chunk) {
-      console.log('body: ' + chunk);
-      chats.push(chunk);
+      //console.log('body: ' + chunk);
+      chats.push(JSON.parse(chunk));
+
     //console.log(request.body);
 
     });
   }
+
+  // request.on('finish', function(message) {
+  //   console.log(message.statusCode);
+  // });
+  
+
+  // if (request.uri === 'http://127.0.0.1:3000/arglebargle') {
+  //   statusCode = 404;
+  // }
+
+  //console.log("chats", chats);
 
   //console.log("Serving request type " + request.method + "with code " + statusCode);
 
@@ -73,26 +102,9 @@ var requestHandler = function(request, response) {
   // which includes the status and all headers.
   response.writeHead(statusCode, headers);
 
-  var otherArray = ['item1', 'item2'];
-  var otherObject = { item1: 'item1val', item2: 'item2val', results: chats };
-  // var json = JSON.stringify({ 
-  //   anObject: otherObject, 
-  //   anArray: otherArray, 
-  //   another: 'item'
-  // });
+  //console.log(chats);
 
-// request.on('response', function (response) {
-//   console.log("event listener entered");
-//   var body = '';
-//   response.on('data', function (chunk) {
-//     body += chunk;
-//   });
-//   response.on('end', function () {
-//     console.log('BODY: ' + body);
-//   });
-// });
-
-  //response.write();
+  var otherObject = {results: chats};
 
 
 
@@ -105,6 +117,7 @@ var requestHandler = function(request, response) {
   // node to actually send all the data over to the client.
   //console.log(response);
   response.end(JSON.stringify(otherObject));
+
 };
 
 // These headers will allow Cross-Origin Resource Sharing (CORS).
