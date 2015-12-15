@@ -11,6 +11,11 @@ this file and include it in basic-server.js so that it actually works.
 *Hint* Check out the node module documentation at http://nodejs.org/api/modules.html.
 
 **************************************************************/
+
+var staticServer = require('node-static');
+
+var file = new(staticServer.Server)('./client/client');
+
 var chats = [];
 
 var directory = {'http://127.0.0.1:3000/': true, 
@@ -40,6 +45,8 @@ var requestHandler = function(request, response) {
   //     statusCode = 404;
   //   response.end("Page not found");
   // 
+
+  file.serveFile('/index.html', request, response);
 
   //console.log(request.url);
   console.log("dir", __dirname + request.url);

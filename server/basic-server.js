@@ -1,5 +1,6 @@
 /* Import node's http module: */
 var http = require("http");
+var staticServer = require('node-static');
 // var dispatch = require('dispatch');
 
 var handleRequest = require('./request-handler.js');
