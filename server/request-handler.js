@@ -13,7 +13,9 @@ this file and include it in basic-server.js so that it actually works.
 **************************************************************/
 var chats = [];
 
-var directory = {'http://127.0.0.1:3000/': true, "/": true, "/classes": true, 'http://127.0.0.1:3000/classes': true};
+var directory = {'http://127.0.0.1:3000/': true, 
+  "/": true, "/classes/room1": true, 'http://127.0.0.1:3000/classes': true,
+"/classes/messages": true};
 
 var requestHandler = function(request, response) {
   // Request and Response come from node's http module.
